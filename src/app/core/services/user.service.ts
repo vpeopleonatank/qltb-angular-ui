@@ -26,20 +26,22 @@ export class UserService {
   login(credentials: {
     email: string;
     password: string;
-  }): Observable<{ user: User }> {
+  }): Observable<User> {
     return this.http
-      .post<{ user: User }>('/users/login', { user: credentials })
-      .pipe(tap(({ user }) => this.setAuth(user)));
+      .post<User>('/users/login', { ...credentials })
+      .pipe(tap((user) => this.setAuth(user)));
   }
 
   register(credentials: {
     username: string;
     email: string;
     password: string;
-  }): Observable<{ user: User }> {
+  }): Observable<User> {
     return this.http
-      .post<{ user: User }>('/users', { user: credentials })
-      .pipe(tap(({ user }) => this.setAuth(user)));
+      .post<User>('/users/register', { ...credentials })
+      .pipe(
+        tap(( user ) => this.setAuth(user)),
+      );
   }
 
   logout(): void {
@@ -47,10 +49,10 @@ export class UserService {
     void this.router.navigate(['/']);
   }
 
-  getCurrentUser(): Observable<{ user: User }> {
-    return this.http.get<{ user: User }>('/user').pipe(
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>('/user/GetCurrentUser').pipe(
       tap({
-        next: ({ user }) => this.setAuth(user),
+        next: (user) => this.setAuth(user),
         error: () => this.purgeAuth(),
       }),
       shareReplay()
