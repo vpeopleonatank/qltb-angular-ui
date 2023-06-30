@@ -2,7 +2,7 @@ export interface DeviceListConfig {
   type: string;
 
   filters: {
-    limit?: number;
-    offset?: number;
+    PageSize?: number;
+    PageNumber?: number;
   };
 }
