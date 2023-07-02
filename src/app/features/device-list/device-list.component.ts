@@ -14,6 +14,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-device-list',
@@ -24,6 +25,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
     MatTableModule,
     MatIconModule,
     MatDialogModule,
+    MatButtonModule
   ],
   templateUrl: './device-list.component.html',
   styleUrls: ['./device-list.component.css'],

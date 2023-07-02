@@ -7,6 +7,12 @@
       <!--     <span class="logo-text">Them thiet bi</span> -->
       <!--   </span> -->
       <!-- </p> -->
+
+      <div class="above-table">
+        <button mat-raised-button (click)="openAddEditDeviceForm()">
+          Them thiet bi
+        </button>
+      </div>
       <app-device-list [limit]="5" [config]="listConfig">
       </app-device-list>
 

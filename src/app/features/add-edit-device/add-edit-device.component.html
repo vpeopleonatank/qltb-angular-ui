@@ -1,1 +1,42 @@
-<p>add-edit-device works!</p>
+<div mat-dialog-title>
+  <h1>Device Form</h1>
+</div>
+
+<form [formGroup]="deviceForm" (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Ten thiet bi</mat-label>
+                <input matInput type="text" formControlName="tenTb">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Nuoc san xuat</mat-label>
+                <input matInput type="text" formControlName="nuocSx">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Don vi</mat-label>
+                <mat-select formControlName="donVi">
+                    <mat-option *ngFor="let val of donVi | keyvalue" [value]="val.key">{{val.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Loai thiet bi</mat-label>
+                <mat-select formControlName="loaiThietBi">
+                    <mat-option *ngFor="let val of donVi | keyvalue" [value]="val.key">{{val.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button type="button">Huy</button>
+    <button mat-raised-button color="primary" type="button">{{ data ? 'Cap nhat' : 'Them' }}</button>
+  </div>
+</form>
