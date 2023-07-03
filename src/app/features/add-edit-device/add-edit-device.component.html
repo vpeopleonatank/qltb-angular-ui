@@ -7,20 +7,20 @@
         <div class="row">
             <mat-form-field appearance="outline">
                 <mat-label>Ten thiet bi</mat-label>
-                <input matInput type="text" formControlName="tenTb">
+                <input matInput type="text" formControlName="tentb">
             </mat-form-field>
         </div>
         <div class="row">
             <mat-form-field appearance="outline">
                 <mat-label>Nuoc san xuat</mat-label>
-                <input matInput type="text" formControlName="nuocSx">
+                <input matInput type="text" formControlName="nuocsx">
             </mat-form-field>
         </div>
         <div class="row">
             <mat-form-field appearance="outline">
                 <mat-label>Don vi</mat-label>
-                <mat-select formControlName="donVi">
-                    <mat-option *ngFor="let val of donVi | keyvalue" [value]="val.key">{{val.value}}
+                <mat-select  formControlName="madv">
+                    <mat-option *ngFor="let val of donVis" [value]="val.madv">{{val.tendv}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -28,15 +28,15 @@
         <div class="row">
             <mat-form-field appearance="outline">
                 <mat-label>Loai thiet bi</mat-label>
-                <mat-select formControlName="loaiThietBi">
-                    <mat-option *ngFor="let val of donVi | keyvalue" [value]="val.key">{{val.value}}
+                <mat-select formControlName="maloai">
+                    <mat-option *ngFor="let val of loaiThietBis" [value]="val.maloai">{{val.tenloai}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
   </div>
   <div mat-dialog-actions class="action">
-    <button mat-raised-button type="button">Huy</button>
-    <button mat-raised-button color="primary" type="button">{{ data ? 'Cap nhat' : 'Them' }}</button>
+    <button mat-raised-button type="button" [mat-dialog-close]="false">Huy</button>
+    <button mat-raised-button color="primary" type="submit">{{ data ? 'Cap nhat' : 'Them' }}</button>
   </div>
 </form>

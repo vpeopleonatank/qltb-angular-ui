@@ -101,7 +101,8 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     observable.pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
-        this.router.navigate(['/'])
+        this.router.navigate([''])
+
       },
       error: (err) => {
         this.errors = err.error;

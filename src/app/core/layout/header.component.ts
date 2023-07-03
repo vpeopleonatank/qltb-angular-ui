@@ -7,7 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ShowAuthedDirective } from '../../shared/show-authed.directive';
-
+import { UserService } from '../services/user.service';
 @Component({
   selector: 'app-layout-header',
   templateUrl: './header.component.html',
@@ -26,4 +26,10 @@ import { ShowAuthedDirective } from '../../shared/show-authed.directive';
 })
 export class HeaderComponent {
   // currentUser$ = inject(UserService).currentUser;
+  constructor(
+    private readonly userService: UserService
+  ) {}
+  logout() {
+    this.userService.logout();
+  }
 }

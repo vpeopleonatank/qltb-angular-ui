@@ -1,12 +1,12 @@
 <div class="main-body">
 
-  <!-- <mat-form-field> -->
-  <!--   <mat-label>Filter</mat-label> -->
-  <!--   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input> -->
-  <!-- </mat-form-field> -->
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Đơn vị 1" #input>
+  </mat-form-field>
 
   <div class="table-container">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource" matSort class="device-table">
 
       <!-- ID Column -->
       <ng-container matColumnDef="matb">
@@ -51,9 +51,9 @@
           <button mat-icon-button color="primary" (click)="openEditForm(row)">
             <mat-icon>edit</mat-icon>
           </button>
-          <!-- <button mat-icon-button color="warn" (click)="deleteEmployee(row.id)"> -->
-          <!--   <mat-icon>delete</mat-icon> -->
-          <!-- </button> -->
+          <button mat-icon-button color="warn" (click)="deleteDevice(row.matb)">
+             <mat-icon>delete</mat-icon>
+           </button>
         </td>
       </ng-container>
 

@@ -4,6 +4,8 @@ import { DeviceListConfig } from "../models/device-list-config.model";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Device } from "../models/device.model";
+import { Donvi } from "../models/donvi.model";
+import { LoaiThietBi } from "../models/LoaiThietBi.model";
 
 @Injectable({ providedIn: "root" })
 export class DevicesService {
@@ -24,5 +26,24 @@ export class DevicesService {
       "/qltb",
       { params }
     );
+  }
+
+  add(device: Partial<Device>): Observable<{thietbiDto: Device}> {
+    return this.http.post<{thietbiDto: Device}>("/qltb", device);
+  }
+
+  update(matb: number, device: Partial<Device>): Observable<{thietbiDto: Device}> {
+    return this.http.put<{thietbiDto: Device}>(`/qltb/${matb}`, device);
+  }
+
+  delete(matb: number): Observable<any> {
+    return this.http.delete<any>(`/qltb/${matb}`);
+  }
+
+  getDonVis(): Observable<{donviDTOs: Donvi[]}> {
+    return this.http.get<{donviDTOs: Donvi[]}>("/qltb/donvi");
+  }
+  getLoaiThietBis(): Observable<{loaiThietbiDTOs: LoaiThietBi[]}> {
+    return this.http.get<{loaiThietbiDTOs: LoaiThietBi[]}>("/qltb/loaithietbi");
   }
 }

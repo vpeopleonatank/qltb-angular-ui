@@ -15,6 +15,9 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-device-list',
@@ -25,7 +28,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     MatIconModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   templateUrl: './device-list.component.html',
   styleUrls: ['./device-list.component.css'],
@@ -63,13 +68,19 @@ export class DeviceListComponent implements OnInit {
       this.runQuery();
     }
   }
+  
+  @Input() addBtnPressed: Subject<boolean> = new Subject();
 
   constructor(
     private _dialog: MatDialog,
     private devicesService: DevicesService
   ) {}
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.addBtnPressed.subscribe(v => {
+      this.runQuery();
+    });
+  }
 
   setPageTo(event: PageEvent) {
     this.currentPage = event.pageIndex + 1;
@@ -78,6 +89,7 @@ export class DeviceListComponent implements OnInit {
   }
 
   openEditForm(data: any) {
+
     const dialogRef = this._dialog.open(AddEditDeviceComponent, {
       data,
     });
@@ -85,7 +97,29 @@ export class DeviceListComponent implements OnInit {
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {
-          // this.getEmployeeList();
+          this.runQuery();
+        }
+      },
+    });
+  }
+
+  deleteDevice(data: number) {
+    const dialogRef = this._dialog.open(DeleteDialogComponent, {
+      data,
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.devicesService.delete(val)
+            .subscribe({
+              next: () => {
+                this.runQuery();
+
+              },
+              error: () => {
+
+              }
+            })
         }
       },
     });
@@ -113,5 +147,14 @@ export class DeviceListComponent implements OnInit {
         // this.paginator.pageSize = this.query.filters.PageSize;
         // this.dataSource.paginator = this.paginator;
       });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }

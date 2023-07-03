@@ -2,13 +2,9 @@ import { inject, NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { UserService } from './core/services/user.service';
 import { map } from 'rxjs/operators';
+import { authGuard } from './core/guard/auth.guard';
 
 const routes: Routes = [
-  {
-    path: '',
-    loadComponent: () =>
-      import('./features/home/home.component').then((m) => m.HomeComponent),
-  },
   {
     path: 'login',
     loadComponent: () =>
@@ -16,6 +12,14 @@ const routes: Routes = [
     canActivate: [
       () => inject(UserService).isAuthenticated.pipe(map((isAuth) => !isAuth)),
     ],
+  },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./features/home/home.component').then((m) => m.HomeComponent),
+      canActivate: [
+        authGuard
+      ]
   },
   {
     path: 'register',

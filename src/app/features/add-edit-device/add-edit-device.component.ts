@@ -9,11 +9,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 
+import { DevicesService } from 'src/app/core/services/device.service';
+import { Donvi } from 'src/app/core/models/donvi.model';
+import { LoaiThietBi } from 'src/app/core/models/LoaiThietBi.model';
+
 export interface DeviceDialogData {
-  tenTb: string;
-  nuocSx: string;
-  donVi: number;
-  loaiThietBi: number;
+  tentb: string;
+  nuocsx: string;
+  madv: number;
+  maloai: number;
+  matb: number;
+  // donvis: Donvi[];
+  // loaithietbis: LoaiThietBi[];
 }
 
 @Component({
@@ -34,28 +41,65 @@ export interface DeviceDialogData {
 export class AddEditDeviceComponent implements OnInit {
   deviceForm: FormGroup;
 
-  donVi: { [key: number]: string } = { 2: 'donvi 1', 1: 'don vi 2' };
+  donVi: { [key: number]: string } = { 1: 'don vi 1', 2: 'donvi 2', 3: 'don vi 3' };
+  donVis: Donvi[] = [];
+  loaiThietBis: LoaiThietBi[] = [];
   constructor(
     private _fb: FormBuilder,
     private _dialogRef: MatDialogRef<AddEditDeviceComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DeviceDialogData
+    @Inject(MAT_DIALOG_DATA) public data: DeviceDialogData,
+    private devicesService: DevicesService
   ) {
     this.deviceForm = this._fb.group({
-      tenTb: '',
-      nuocSx: '',
-      donVi: '',
-      loaiThietBi: '',
+      tentb: '',
+      nuocsx: '',
+      madv: '',
+      maloai: '',
     });
   }
 
   ngOnInit() {
-    this.deviceForm.patchValue(this.data);
+    this.devicesService.getDonVis()
+      .subscribe({
+        next: (val) => {
+          this.donVis = val.donviDTOs;
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+      this.devicesService.getLoaiThietBis()
+      .subscribe({
+        next: (val) => {
+          this.loaiThietBis = val.loaiThietbiDTOs;
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
+      this.deviceForm.patchValue(this.data);
   }
 
   onFormSubmit() {
     if (this.deviceForm.valid) {
-      console.log(this.data)
       if (this.data) {
+        this.devicesService.update(this.data.matb, this.deviceForm.value).subscribe({
+          next: (data) => {
+            this._dialogRef.close(true);
+          },
+          error: (err: any) => {
+            console.error(err);
+          },
+        });
+      } else {
+        this.devicesService.add(this.deviceForm.value).subscribe({
+          next: (data) => {
+            this._dialogRef.close(true);
+          },
+          error: (err: any) => {
+            console.error(err);
+          },
+        });
       }
     }
   }

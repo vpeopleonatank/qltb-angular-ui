@@ -1,19 +1,12 @@
 <div class="home-page">
   <div class="row">
     <div class="content-block">
-      <!-- <p> -->
-      <!--   <span class="header-item" routerLink="/add-device" routerLinkActive="active"> -->
-      <!--     <mat-icon>add_circle</mat-icon> -->
-      <!--     <span class="logo-text">Them thiet bi</span> -->
-      <!--   </span> -->
-      <!-- </p> -->
-
       <div class="above-table">
         <button mat-raised-button (click)="openAddEditDeviceForm()">
           Them thiet bi
         </button>
       </div>
-      <app-device-list [limit]="5" [config]="listConfig">
+      <app-device-list [addBtnPressed]="addButtonPressed" [limit]="5" [config]="listConfig">
       </app-device-list>
 
     </div>
